@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Diagnóstico Diamante, Descubra por que sua carreira está travada e o que precisa ser lapidado para crescer com estratégia. Ferramenta gratuita de Diana Santos, Estrategista de Carreira.">
+<meta property="og:title" content="Diagnóstico Diamante | Diana Santos">
+<meta property="og:description" content="Em 5 minutos, descubra o que está impedindo sua carreira de crescer. Diagnóstico personalizado, devolutiva gratuita com estrategista.">
+<meta property="og:type" content="website">
+<title>Diagnóstico Diamante | Diana Santos · Estrategista de Carreira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy:   #0C2340;
+    --navy2:  #0f2d54;
+    --blue1:  #185FA5;
+    --blue2:  #378ADD;
+    --blue3:  #E6F1FB;
+    --cream:  #F7F6F3;
+    --glass:  rgba(255,255,255,0.05);
+    --border: rgba(55,138,221,0.2);
+    --text:   rgba(247,246,243,0.82);
+    --muted:  rgba(247,246,243,0.45);
+    --faint:  rgba(247,246,243,0.18);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(55,138,221,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(55,138,221,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 24px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* SCREENS */
+  .screen {
+    display: none;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 40px 0 32px;
+    animation: fadeIn 0.3s ease;
+  }
+  .screen.active { display: flex; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* BRAND */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 52px;
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue2);
+    opacity: 0.88;
+  }
+
+  /* PROGRESS */
+  .progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 44px;
+  }
+  .progress-step {
+    flex: 1;
+    height: 2px;
+    background: rgba(55,138,221,0.13);
+    border-radius: 1px;
+    transition: background 0.3s;
+  }
+  .progress-step.done { background: var(--blue2); }
+  .progress-step.active { background: var(--blue1); }
+
+  /* TYPOGRAPHY */
+  .step-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--blue2);
+    opacity: 0.58;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(38px, 6vw, 54px);
+    font-weight: 300;
+    line-height: 1.12;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  h1 em { font-style: italic; color: var(--blue2); }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 36px;
+  }
+
+  /* FORM */
+  .field { margin-bottom: 20px; }
+
+  .field-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue2);
+    opacity: 0.75;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    appearance: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue2);
+    background: rgba(55,138,221,0.07);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: rgba(247,246,243,0.25);
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23378ADD' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-color: var(--glass);
+    padding-right: 42px;
+  }
+
+  select option { background: #0C2340; color: var(--cream); }
+
+  textarea { resize: vertical; min-height: 100px; line-height: 1.7; }
+
+  /* CHOICES */
+  .choices { display: flex; flex-direction: column; gap: 9px; margin-bottom: 28px; }
+
+  .choice {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 15px 18px;
+    cursor: pointer;
+    transition: all 0.16s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text);
+    user-select: none;
+  }
+  .choice:hover { border-color: var(--blue1); background: rgba(24,95,165,0.1); }
+  .choice.selected { border-color: var(--blue2); background: rgba(55,138,221,0.1); color: var(--cream); }
+
+  .choice-dot {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    border: 1.5px solid rgba(55,138,221,0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.16s;
+  }
+  .choice.selected .choice-dot {
+    background: var(--blue2);
+    border-color: var(--blue2);
+  }
+  .choice-dot::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.16s;
+    display: block;
+  }
+  .choice.selected .choice-dot::after { opacity: 1; }
+
+  /* MULTI-SELECT checkbox style */
+  .choice.multi .choice-dot { border-radius: 2px; }
+  .choice.multi.selected .choice-dot::after {
+    width: 10px;
+    height: 6px;
+    background: none;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg) translate(1px,-1px);
+    border-radius: 0;
+  }
+
+  /* SCALE */
+  .scale-wrap { margin-bottom: 28px; }
+  .scale-question {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .scale-buttons { display: flex; gap: 8px; margin-bottom: 8px; }
+  .scale-btn {
+    flex: 1;
+    aspect-ratio: 1;
+    max-width: 56px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.16s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .scale-btn:hover { border-color: var(--blue1); color: var(--cream); }
+  .scale-btn.selected { background: rgba(55,138,221,0.18); border-color: var(--blue2); color: var(--cream); }
+  .scale-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--faint); letter-spacing: 0.04em; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 28px;
+    background: var(--blue1);
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.14s;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .btn:hover { background: var(--blue2); transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-cta {
+    background: var(--blue2);
+    width: 100%;
+    padding: 17px 28px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .btn-cta:hover { background: #4a9be0; }
+
+  .btn-back {
+    background: transparent;
+    border: none;
+    color: var(--faint);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 0;
+    transition: color 0.16s;
+    letter-spacing: 0.04em;
+  }
+  .btn-back:hover { color: var(--muted); }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 32px;
+  }
+  .nav-col {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  /* ERROR */
+  .error {
+    display: none;
+    color: #e07878;
+    font-size: 12px;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 11px; margin-bottom: 36px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .check-item svg { flex-shrink: 0; }
+
+  .divider { width: 36px; height: 1px; background: var(--border); margin: 22px 0; }
+
+  /* LOADING */
+  .loading-screen {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px;
+  }
+  .diamond-anim {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 36px;
+    animation: breathe 2.2s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%,100% { opacity: 0.5; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.08); }
+  }
+  .loading-msg {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+    min-height: 30px;
+    transition: opacity 0.28s;
+  }
+  .loading-hint {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--faint);
+  }
+
+  /* RESULT */
+  .result-header {
+    text-align: center;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .result-cargo {
+    font-size: 11px;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    margin-bottom: 22px;
+  }
+
+  .score-circle { display: block; margin: 0 auto 10px; }
+  .score-hint { font-size: 10px; color: var(--faint); letter-spacing: 0.1em; }
+
+  .result-block {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    margin-bottom: 14px;
+  }
+  .result-block-accent {
+    background: rgba(24,95,165,0.08);
+    border-color: rgba(55,138,221,0.22);
+  }
+
+  .block-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--blue2);
+    opacity: 0.7;
+    margin-bottom: 12px;
+  }
+  .block-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .block-text { font-size: 14px; line-height: 1.85; color: var(--text); }
+
+  .item-card {
+    border-left: 2px solid var(--blue1);
+    padding-left: 14px;
+    margin-bottom: 14px;
+    border-radius: 0;
+  }
+  .item-card.highlight { border-left-color: var(--blue2); }
+  .item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 5px;
+  }
+  .item-desc { font-size: 13px; line-height: 1.75; color: var(--muted); }
+
+  .map-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 13px; }
+  .map-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--blue2);
+    opacity: 0.4;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+  .map-action { font-size: 14px; font-weight: 500; color: var(--cream); margin-bottom: 3px; }
+  .map-impact { font-size: 12px; color: var(--faint); line-height: 1.6; }
+
+  .closing-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.8;
+    color: rgba(247,246,243,0.9);
+  }
+
+  /* CTA BOX */
+  .cta-box {
+    background: rgba(24,95,165,0.1);
+    border: 1px solid rgba(55,138,221,0.25);
+    border-radius: 8px;
+    padding: 32px 24px;
+    margin-top: 28px;
+    text-align: center;
+  }
+  .cta-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+  .cta-box p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+  .cta-box strong { color: var(--cream); }
+
+  /* FOOTER */
+  .footer {
+    padding: 36px 0 28px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--faint);
+    letter-spacing: 0.05em;
+    line-height: 1.9;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ SCREEN 0, LANDING ═══ -->
+  <div class="screen active" id="s0">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+        <polygon points="20,4 36,15 36,25 20,36 4,25 4,15" stroke="#378ADD" stroke-width="1.2" fill="none" opacity=".65"/>
+        <polygon points="20,4 36,15 20,20 4,15" fill="rgba(55,138,221,0.12)" stroke="#378ADD" stroke-width=".8" opacity=".72"/>
+        <polygon points="20,20 36,25 20,36 4,25" fill="rgba(55,138,221,0.06)" stroke="#378ADD" stroke-width=".8" opacity=".5"/>
+        <line x1="4" y1="15" x2="36" y2="15" stroke="#378ADD" stroke-width=".6" opacity=".32"/>
+        <line x1="20" y1="4" x2="20" y2="20" stroke="#378ADD" stroke-width=".6" opacity=".32"/>
+        <line x1="20" y1="20" x2="4" y2="25" stroke="#378ADD" stroke-width=".55" opacity=".22"/>
+        <line x1="20" y1="20" x2="36" y2="25" stroke="#378ADD" stroke-width=".55" opacity=".22"/>
+        <line x1="20" y1="20" x2="20" y2="36" stroke="#378ADD" stroke-width=".55" opacity=".22"/>
+      </svg>
+      <span class="brand-name">Diana Santos</span>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+      <span class="step-label">Ferramenta exclusiva · Gratuita</span>
+      <h1>Diagnóstico<br><em>Diamante</em></h1>
+      <p class="subtitle">Descubra em 5 minutos por que sua carreira está travada, e o que precisa ser lapidado para você crescer com estratégia e intenção.</p>
+
+      <div class="checklist">
+        <div class="check-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#378ADD" stroke-width="2.5" aria-hidden="true"><polyline points="20,6 9,17 4,12"/></svg>
+          5 perguntas estratégicas (não genéricas)
+        </div>
+        <div class="check-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#378ADD" stroke-width="2.5" aria-hidden="true"><polyline points="20,6 9,17 4,12"/></svg>
+          Diagnóstico personalizado e detalhado
+        </div>
+        <div class="check-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#378ADD" stroke-width="2.5" aria-hidden="true"><polyline points="20,6 9,17 4,12"/></svg>
+          Devolutiva gratuita de 30 min com estrategista
+        </div>
+      </div>
+
+      <button class="btn" onclick="go(1)" aria-label="Iniciar diagnóstico">
+        Iniciar Diagnóstico
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="footer">© Diana Santos · Estrategista de Carreira<br>
+    (34) 98439-9644 · @dianapds · linkedin.com/in/diana-patricia-dos-santos</div>
+  </div>
+
+  <!-- ═══ SCREEN 1, DADOS PESSOAIS ═══ -->
+  <div class="screen" id="s1">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,15 36,25 20,36 4,25 4,15" stroke="#378ADD" stroke-width="1.2" fill="none" opacity=".65"/></svg><span class="brand-name">Diana Santos</span></div>
+    <div class="progress"><div class="progress-step active"></div><div class="progress-step"></div><div class="progress-step"></div><div class="progress-step"></div><div class="progress-step"></div></div>
+    <span class="step-label">Etapa 1 de 5</span>
+    <h2>Me conte um pouco<br>sobre você</h2>
+    <p class="subtitle">Essas informações tornam o diagnóstico preciso.</p>
+
+    <div class="field">
+      <label class="field-label" for="nome">Seu nome</label>
+      <input type="text" id="nome" placeholder="Como prefere ser chamado(a)?" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label class="field-label" for="cargo">Cargo atual</label>
+      <input type="text" id="cargo" placeholder="Ex: Gerente de RH, Analista Sênior..." autocomplete="organization-title">
+    </div>
+    <div class="field">
+      <label class="field-label" for="setor">Área / Setor</label>
+      <select id="setor">
+        <option value="">Selecione seu setor</option>
+        <option>Recursos Humanos</option>
+        <option>Tecnologia / TI</option>
+        <option>Financeiro / Contabilidade</option>
+        <option>Marketing / Comunicação</option>
+        <option>Comercial / Vendas</option>
+        <option>Operações / Logística</option>
+        <option>Jurídico</option>
+        <option>Saúde</option>
+        <option>Educação</option>
+        <option>Engenharia</option>
+        <option>Administrativo</option>
+        <option>Outro</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field-label" for="nivel">Nível hierárquico</label>
+      <select id="nivel">
+        <option value="">Selecione seu nível</option>
+        <option>Operacional / Assistente</option>
+        <option>Analista / Técnico</option>
+        <option>Especialista / Sênior</option>
+        <option>Coordenador / Supervisor</option>
+        <option>Gerente</option>
+        <option>Diretor / C-Level</option>
+        <option>Empreendedor / Autônomo</option>
+      </select>
+    </div>
+    <span class="error" id="e1">Preencha todos os campos para continuar.</span>
+
+    <div class="nav">
+      <button class="btn-back" onclick="go(0)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Voltar
+      </button>
+      <button class="btn" onclick="validate(1, 2)">
+        Continuar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ SCREEN 2, MOMENTO DE CARREIRA ═══ -->
+  <div class="screen" id="s2">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,15 36,25 20,36 4,25 4,15" stroke="#378ADD" stroke-width="1.2" fill="none" opacity=".65"/></svg><span class="brand-name">Diana Santos</span></div>
+    <div class="progress"><div class="progress-step done"></div><div class="progress-step active"></div><div class="progress-step"></div><div class="progress-step"></div><div class="progress-step"></div></div>
+    <span class="step-label">Etapa 2 de 5</span>
+    <h2>Seu momento<br>de carreira agora</h2>
+    <p class="subtitle">Selecione o que melhor representa onde você está.</p>
+
+    <label class="field-label">Há quanto tempo está no mesmo cargo ou nível?</label>
+    <div class="choices" id="g-tempo">
+      <div class="choice" onclick="single(this,'g-tempo')"><div class="choice-dot"></div>Menos de 1 ano, ainda me adaptando</div>
+      <div class="choice" onclick="single(this,'g-tempo')"><div class="choice-dot"></div>1 a 2 anos, consolidando, mas quero mais</div>
+      <div class="choice" onclick="single(this,'g-tempo')"><div class="choice-dot"></div>3 a 5 anos, sinto que estagnou</div>
+      <div class="choice" onclick="single(this,'g-tempo')"><div class="choice-dot"></div>Mais de 5 anos, claramente parado(a)</div>
+    </div>
+
+    <label class="field-label">Como avalia sua evolução nos últimos 2 anos?</label>
+    <div class="choices" id="g-evol">
+      <div class="choice" onclick="single(this,'g-evol')"><div class="choice-dot"></div>Cresci, promoções, projetos e reconhecimento</div>
+      <div class="choice" onclick="single(this,'g-evol')"><div class="choice-dot"></div>Cresci um pouco, abaixo do que esperava</div>
+      <div class="choice" onclick="single(this,'g-evol')"><div class="choice-dot"></div>Praticamente parado(a), mesmo nível e salário</div>
+      <div class="choice" onclick="single(this,'g-evol')"><div class="choice-dot"></div>Sinto que regredi ou me afastei dos objetivos</div>
+    </div>
+    <span class="error" id="e2">Selecione uma opção em cada pergunta.</span>
+
+    <div class="nav">
+      <button class="btn-back" onclick="go(1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Voltar</button>
+      <button class="btn" onclick="validate(2, 3)">Continuar <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══ SCREEN 3, DESAFIOS ═══ -->
+  <div class="screen" id="s3">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,15 36,25 20,36 4,25 4,15" stroke="#378ADD" stroke-width="1.2" fill="none" opacity=".65"/></svg><span class="brand-name">Diana Santos</span></div>
+    <div class="progress"><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step active"></div><div class="progress-step"></div><div class="progress-step"></div></div>
+    <span class="step-label">Etapa 3 de 5</span>
+    <h2>Seu maior desafio<br>de carreira hoje</h2>
+    <p class="subtitle">Escolha até 2 opções que mais representam seu momento atual.</p>
+
+    <div class="choices" id="g-desaf">
+      <div class="choice multi" onclick="multi(this,'g-desaf',2)"><div class="choice-dot"></div>Trabalho muito, mas falta visibilidade e reconhecimento</div>
+      <div class="choice multi" onclick="multi(this,'g-desaf',2)"><div class="choice-dot"></div>Não sei como me posicionar para crescer</div>
+      <div class="choice multi" onclick="multi(this,'g-desaf',2)"><div class="choice-dot"></div>Quero mudar de área ou empresa, mas não sei como</div>
+      <div class="choice multi" onclick="multi(this,'g-desaf',2)"><div class="choice-dot"></div>Política organizacional me impede de avançar</div>
+      <div class="choice multi" onclick="multi(this,'g-desaf',2)"><div class="choice-dot"></div>Minha remuneração está abaixo do que mereço</div>
+      <div class="choice multi" onclick="multi(this,'g-desaf',2)"><div class="choice-dot"></div>Perdi o propósito, não sei mais o que quero</div>
+      <div class="choice multi" onclick="multi(this,'g-desaf',2)"><div class="choice-dot"></div>Dificuldade em liderar ou me impor como liderança</div>
+    </div>
+    <span class="error" id="e3">Selecione ao menos uma opção.</span>
+
+    <div class="nav">
+      <button class="btn-back" onclick="go(2)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Voltar</button>
+      <button class="btn" onclick="validate(3, 4)">Continuar <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══ SCREEN 4, VISÃO E CLAREZA ═══ -->
+  <div class="screen" id="s4">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,15 36,25 20,36 4,25 4,15" stroke="#378ADD" stroke-width="1.2" fill="none" opacity=".65"/></svg><span class="brand-name">Diana Santos</span></div>
+    <div class="progress"><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step active"></div><div class="progress-step"></div></div>
+    <span class="step-label">Etapa 4 de 5</span>
+    <h2>Visão e clareza<br>estratégica</h2>
+    <p class="subtitle">O que você busca e quanta clareza tem sobre o caminho.</p>
+
+    <label class="field-label">O que você mais deseja nos próximos 2 anos?</label>
+    <div class="choices" id="g-amb">
+      <div class="choice" onclick="single(this,'g-amb')"><div class="choice-dot"></div>Promoção para cargo de liderança ou gestão</div>
+      <div class="choice" onclick="single(this,'g-amb')"><div class="choice-dot"></div>Transição de área, empresa ou setor</div>
+      <div class="choice" onclick="single(this,'g-amb')"><div class="choice-dot"></div>Aumento de remuneração expressivo (30%+)</div>
+      <div class="choice" onclick="single(this,'g-amb')"><div class="choice-dot"></div>Construir autoridade e reconhecimento na minha área</div>
+      <div class="choice" onclick="single(this,'g-amb')"><div class="choice-dot"></div>Empreender ou atuar como autônomo(a)</div>
+    </div>
+
+    <div class="scale-wrap">
+      <label class="field-label">Clareza estratégica</label>
+      <p class="scale-question">Você tem uma estratégia clara e intencional para alcançar esse objetivo?</p>
+      <div class="scale-buttons" id="g-esc">
+        <button class="scale-btn" onclick="scale(this,'g-esc')" data-v="1" type="button">1</button>
+        <button class="scale-btn" onclick="scale(this,'g-esc')" data-v="2" type="button">2</button>
+        <button class="scale-btn" onclick="scale(this,'g-esc')" data-v="3" type="button">3</button>
+        <button class="scale-btn" onclick="scale(this,'g-esc')" data-v="4" type="button">4</button>
+        <button class="scale-btn" onclick="scale(this,'g-esc')" data-v="5" type="button">5</button>
+      </div>
+      <div class="scale-labels"><span>Sem estratégia</span><span>Estratégia clara</span></div>
+    </div>
+    <span class="error" id="e4">Selecione uma opção em cada pergunta.</span>
+
+    <div class="nav">
+      <button class="btn-back" onclick="go(3)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Voltar</button>
+      <button class="btn" onclick="validate(4, 5)">Continuar <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══ SCREEN 5, OBSTÁCULO + CONTATO ═══ -->
+  <div class="screen" id="s5">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,15 36,25 20,36 4,25 4,15" stroke="#378ADD" stroke-width="1.2" fill="none" opacity=".65"/></svg><span class="brand-name">Diana Santos</span></div>
+    <div class="progress"><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step active"></div></div>
+    <span class="step-label">Etapa 5 de 5, última etapa</span>
+    <h2>Uma última<br>pergunta essencial</h2>
+    <p class="subtitle">Sua resposta torna o diagnóstico cirúrgico. Seja honesto(a), aqui não há resposta certa ou errada.</p>
+
+    <div class="field">
+      <label class="field-label" for="obst">O que mais te impede de crescer hoje?</label>
+      <textarea id="obst" placeholder="Ex: 'Não sei como me vender internamente', 'Tenho medo de pedir promoção', 'Meu gestor não me dá espaço'... Quanto mais específico(a), mais preciso será seu diagnóstico."></textarea>
+    </div>
+
+    <div class="divider"></div>
+    <p style="font-size: 13px; color: var(--faint); margin-bottom: 18px; line-height: 1.7;">Informe seus contatos para receber o diagnóstico e agendar sua devolutiva gratuita.</p>
+
+    <div class="field">
+      <label class="field-label" for="wpp">WhatsApp (com DDD)</label>
+      <input type="tel" id="wpp" placeholder="(34) 90000-0000" autocomplete="tel">
+    </div>
+    <div class="field">
+      <label class="field-label" for="email">E-mail</label>
+      <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
+    </div>
+    <span class="error" id="e5">Preencha todos os campos para gerar seu diagnóstico.</span>
+
+    <div class="nav nav-col">
+      <button class="btn btn-cta" onclick="generate()" type="button">
+        Gerar meu Diagnóstico Diamante
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <button class="btn-back" style="justify-content: center;" onclick="go(4)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Voltar
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ LOADING ═══ -->
+  <div class="screen loading-screen" id="sload">
+    <svg class="diamond-anim" viewBox="0 0 76 76" fill="none" aria-hidden="true">
+      <polygon points="38,6 66,24 66,48 38,70 10,48 10,24" stroke="#378ADD" stroke-width="1.5" fill="none"/>
+      <polygon points="38,6 66,24 38,38 10,24" fill="rgba(55,138,221,0.13)" stroke="#378ADD" stroke-width="1"/>
+      <polygon points="38,38 66,48 38,70 10,48" fill="rgba(55,138,221,0.06)" stroke="#378ADD" stroke-width="1"/>
+      <line x1="10" y1="24" x2="66" y2="24" stroke="#378ADD" stroke-width=".7" opacity=".42"/>
+      <line x1="38" y1="6" x2="38" y2="38" stroke="#378ADD" stroke-width=".7" opacity=".42"/>
+    </svg>
+    <div class="loading-msg" id="loading-msg">Analisando seu perfil estratégico...</div>
+    <p class="loading-hint">Isso pode levar alguns segundos</p>
+  </div>
+
+  <!-- ═══ RESULTADO ═══ -->
+  <div class="screen" id="sres"></div>
+
+</div><!-- end .page -->
+
+<script>
+  // ── State ──
+  const D = { nome:'', cargo:'', setor:'', nivel:'', tempo:'', evol:'', desafios:[], amb:'', esc:0, obst:'', wpp:'', email:'' };
+
+  // ── Navigation ──
+  function go(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const id = n === 'load' ? 'sload' : n === 'res' ? 'sres' : 's' + n;
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // ── Interactions ──
+  function single(el, groupId) {
+    document.getElementById(groupId).querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function multi(el, groupId, max) {
+    const selected = document.getElementById(groupId).querySelectorAll('.choice.selected');
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+    } else if (selected.length < max) {
+      el.classList.add('selected');
+    }
+  }
+
+  function scale(el, groupId) {
+    document.getElementById(groupId).querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  // ── Validation ──
+  function validate(from, to) {
+    const err = document.getElementById('e' + from);
+    err.style.display = 'none';
+
+    if (from === 1) {
+      D.nome  = document.getElementById('nome').value.trim();
+      D.cargo = document.getElementById('cargo').value.trim();
+      D.setor = document.getElementById('setor').value;
+      D.nivel = document.getElementById('nivel').value;
+      if (!D.nome || !D.cargo || !D.setor || !D.nivel) { err.style.display = 'block'; return; }
+    }
+
+    if (from === 2) {
+      const t = document.querySelector('#g-tempo .selected');
+      const e = document.querySelector('#g-evol .selected');
+      if (!t || !e) { err.style.display = 'block'; return; }
+      D.tempo = t.textContent.trim();
+      D.evol  = e.textContent.trim();
+    }
+
+    if (from === 3) {
+      const s = document.querySelectorAll('#g-desaf .selected');
+      if (!s.length) { err.style.display = 'block'; return; }
+      D.desafios = Array.from(s).map(x => x.textContent.trim());
+    }
+
+    if (from === 4) {
+      const a  = document.querySelector('#g-amb .selected');
+      const sc = document.querySelector('#g-esc .selected');
+      if (!a || !sc) { err.style.display = 'block'; return; }
+      D.amb = a.textContent.trim();
+      D.esc = sc.dataset.v;
+    }
+
+    go(to);
+  }
+
+  // ── Loading messages ──
+  const MSGS = [
+    'Analisando seu perfil estratégico...',
+    'Mapeando facetas a lapidar...',
+    'Identificando seus diamantes brutos...',
+    'Construindo seu mapa de ascensão...',
+    'Preparando seu diagnóstico personalizado...'
+  ];
+  let msgIdx = 0, msgTimer;
+
+  function startMessages() {
+    const el = document.getElementById('loading-msg');
+    el.textContent = MSGS[0];
+    msgTimer = setInterval(() => {
+      msgIdx = (msgIdx + 1) % MSGS.length;
+      el.style.opacity = '0';
+      setTimeout(() => { el.textContent = MSGS[msgIdx]; el.style.opacity = '1'; }, 280);
+    }, 2500);
+  }
+
+  // ── Generate ──
+  async function generate() {
+    const err = document.getElementById('e5');
+    err.style.display = 'none';
+    D.obst  = document.getElementById('obst').value.trim();
+    D.wpp   = document.getElementById('wpp').value.trim();
+    D.email = document.getElementById('email').value.trim();
+    if (!D.obst || !D.wpp || !D.email) { err.style.display = 'block'; return; }
+
+    go('load');
+    startMessages();
+
+    const prompt = `Você é Diana Santos, estrategista de carreira. Crie um Diagnóstico Diamante em JSON para:
+Nome: ${D.nome} | Cargo: ${D.cargo} | Setor: ${D.setor} | Nível: ${D.nivel}
+Tempo cargo: ${D.tempo} | Evolução: ${D.evol} | Desafios: ${D.desafios.join('/')}
+Objetivo: ${D.amb} | Clareza(1-5): ${D.esc} | Obstáculo: "${D.obst}"
+Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com JSON válido:
+{"perfil_atual":"2 frases diretas sobre onde está hoje","facetas":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"diamantes_brutos":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"mapa_estrategico":[{"prioridade":"1","acao":"","impacto":""},{"prioridade":"2","acao":"","impacto":""},{"prioridade":"3","acao":"","impacto":""},{"prioridade":"4","acao":"","impacto":""}],"mensagem_final":"1 parágrafo personalizado","score_lapidacao":60}`;
+
+    try {
+      const res  = await fetch('/api/diagnostic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadData: {
+            nome: D.nome, cargo: D.cargo, setor: D.setor, nivel: D.nivel,
+            tempo: D.tempo, evol: D.evol, desafios: D.desafios,
+            amb: D.amb, esc: D.esc, obst: D.obst, wpp: D.wpp, email: D.email
+          },
+          claudePayload: {
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1500,
+            messages: [{ role: 'user', content: prompt }]
+          }
+        })
+      });
+      const data = await res.json();
+      const text = (data.content && data.content[0] && data.content[0].text) || '';
+      const diag = JSON.parse(text.replace(/```json|```/g, '').trim());
+      clearInterval(msgTimer);
+      renderResult(diag);
+    } catch (e) {
+      clearInterval(msgTimer);
+      document.getElementById('sload').innerHTML = `
+        <div style="text-align:center;padding:40px 24px">
+          <p style="font-size:15px;color:var(--muted);margin-bottom:24px;line-height:1.7">Ocorreu um erro ao gerar o diagnóstico.<br>Verifique sua conexão e tente novamente.</p>
+          <button class="btn" onclick="location.reload()">Tentar novamente</button>
+        </div>`;
+    }
+  }
+
+  // ── Render Result ──
+  function renderResult(d) {
+    const firstName = D.nome.split(' ')[0];
+    const sc        = d.score_lapidacao || 62;
+    const R         = 54;
+    const C         = 2 * Math.PI * R;
+    const filled    = Math.round(C * sc / 100);
+    const offset    = Math.round(C * 0.25);
+
+    document.getElementById('sres').innerHTML = `
+      <div class="brand" style="margin-bottom:28px">
+        <svg width="26" height="26" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,15 36,25 20,36 4,25 4,15" stroke="#378ADD" stroke-width="1.2" fill="none" opacity=".65"/></svg>
+        <span class="brand-name">Diana Santos</span>
+      </div>
+
+      <div class="result-header">
+        <span class="step-label">Diagnóstico Diamante</span>
+        <h1 style="font-size: clamp(26px,4vw,38px);">${firstName},<br>seu diagnóstico está pronto.</h1>
+        <p class="result-cargo">${D.cargo} · ${D.setor}</p>
+
+        <svg class="score-circle" width="132" height="132" viewBox="0 0 132 132" aria-label="Score de lapidação: ${sc}">
+          <circle cx="66" cy="66" r="${R}" stroke="rgba(55,138,221,0.1)" stroke-width="7" fill="none"/>
+          <circle cx="66" cy="66" r="${R}" stroke="#378ADD" stroke-width="7" fill="none"
+            stroke-dasharray="${filled} ${Math.round(C)}"
+            stroke-dashoffset="${offset}"
+            stroke-linecap="round"/>
+          <text x="66" y="59" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="36" font-weight="300" fill="#F7F6F3">${sc}</text>
+          <text x="66" y="77" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7.5" fill="rgba(247,246,243,0.32)" letter-spacing="2.5">LAPIDAÇÃO</text>
+        </svg>
+        <p class="score-hint">índice de maturidade estratégica</p>
+      </div>
+
+      <div class="result-block">
+        <span class="block-label">Perfil Atual</span>
+        <p class="block-text">${d.perfil_atual}</p>
+      </div>
+
+      <div class="result-block">
+        <span class="block-label">Facetas a Lapidar</span>
+        <p class="block-title">O que está impedindo seu brilho</p>
+        ${d.facetas.map(f => `
+          <div class="item-card">
+            <div class="item-title">${f.titulo}</div>
+            <div class="item-desc">${f.descricao}</div>
+          </div>`).join('')}
+      </div>
+
+      <div class="result-block">
+        <span class="block-label">Diamantes Brutos</span>
+        <p class="block-title">O que você ainda não está aproveitando</p>
+        ${d.diamantes_brutos.map(db => `
+          <div class="item-card highlight">
+            <div class="item-title">${db.titulo}</div>
+            <div class="item-desc">${db.descricao}</div>
+          </div>`).join('')}
+      </div>
+
+      <div class="result-block">
+        <span class="block-label">Mapa Estratégico</span>
+        <p class="block-title">Suas próximas 4 movimentações</p>
+        ${d.mapa_estrategico.map(m => `
+          <div class="map-item">
+            <div class="map-num">${m.prioridade}</div>
+            <div>
+              <div class="map-action">${m.acao}</div>
+              <div class="map-impact">${m.impacto}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+
+      <div class="result-block result-block-accent">
+        <span class="block-label">Uma palavra de Diana</span>
+        <p class="closing-quote">${d.mensagem_final}</p>
+      </div>
+
+      <div class="cta-box">
+        <h3>Agora vamos aprofundar.</h3>
+        <p>
+          Esse diagnóstico revela o mapa, o caminho se constrói com estratégia personalizada.
+          Agende sua <strong>Devolutiva Gratuita</strong>: 30 minutos para analisarmos juntos
+          seu diagnóstico e definirmos seus próximos passos reais.
+        </p>
+        <a href="https://wa.me/5534984399644?text=Olá%20Diana!%20Acabei%20de%20fazer%20o%20Diagnóstico%20Diamante%20e%20quero%20agendar%20minha%20devolutiva%20gratuita."
+           target="_blank" rel="noopener noreferrer" class="btn btn-cta">
+          Agendar Devolutiva Gratuita
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <p style="font-size:11px;color:var(--faint);margin-bottom:0">Sem compromisso · 100% estratégico</p>
+      </div>
+
+      <div class="footer">
+        © Diana Santos · Estrategista de Carreira<br>
+        (34) 98439-9644 · @dianapds · linkedin.com/in/diana-patricia-dos-santos
+      </div>
+    `;
+
+    go('res');
+  }
+</script>
+</body>
+</html>
