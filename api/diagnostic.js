@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -18,4 +18,8 @@ export default async function handler(req, res) {
     let score = '';
     try { const txt = claudeData.content?.[0]?.text || ''; const parsed = JSON.parse(txt.replace(/```json|```/g, '').trim()); score = parsed.score_lapidacao || ''; } catch (_) {}
     if (process.env.SHEETS_WEBHOOK_URL && leadData) {
-      fetch(process.env.SHEETS_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ timestamp: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_
+      fetch(process.env.SHEETS_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ timestamp: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }), nome: leadData.nome||'', cargo: leadData.cargo||'', setor: leadData.setor||'', nivel: leadData.nivel||'', tempo: leadData.tempo||'', evol: leadData.evol||'', desafios: Array.isArray(leadData.desafios)?leadData.desafios.join(' | '):'', amb: leadData.amb||'', clareza: leadData.esc||'', obstaculo: leadData.obst||'', whatsapp: leadData.wpp||'', email: leadData.email||'', score, status: 'Novo lead' }) }).catch(e => console.error('Sheets error:', e));
+    }
+    return res.status(200).json(claudeData);
+  } catch (err) { console.error('Erro geral:', err.toString()); return res.status(500).json({ error: err.toString() }); }
+}
