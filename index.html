@@ -921,7 +921,7 @@ Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com 
         })
       });
       const data = await res.json();
-      const text = (data.content && data.content[0] && data.content[0].text) || '';
+      const text = (data.content && data.content[0] && data.content?.[0]?.text) || data.text || data.result || data.response || '';
       const jsonMatch = text.match(/\{[\s\S]*\}/); const diag = JSON.parse(jsonMatch ? jsonMatch[0] : text);
       clearInterval(msgTimer);
       renderResult(diag);
