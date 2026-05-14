@@ -906,7 +906,7 @@ Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com 
     try {
 const text = (data.content && data.content[0] && data.content[0].text)        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-  if (data.error) throw new Error(data.error);      body: JSON.stringify({
+  data.content[0].text) || '';
           leadData: {
             nome: D.nome, cargo: D.cargo, setor: D.setor, nivel: D.nivel,
             tempo: D.tempo, evol: D.evol, desafios: D.desafios,
@@ -921,7 +921,7 @@ const text = (data.content && data.content[0] && data.content[0].text)        me
       });
       const data = await res.json();
       const text = (data.content && data.content[0] && data.content?.[0]?.text) || data.text || data.result || data.response || '';
-      const diag = data.perfil_atual ? data : (text.match(/\{[\s\S]*\}/) ? JSON.parse(text.match(/\{[\s\S]*\}/)[0]) : JSON.parse(text)); const _jm = text.match(/\{[\s\S]*\}/); const diag = JSON.parse(jsonMatch ? jsonMatch[0] : text);
+      const diag = data.perfil_atual ? data : (text.match(/\{[\s\S]*\}/) ? JSON.parse(text.match(/\{[\s\S]*\}/)[0]) if (data.error) throw new Error(data.error);(/\{[\s\S]*\}/); const diag = JSON.parse(jsonMatch ? jsonMatch[0] : text);
       clearInterval(msgTimer);
       renderResult(diag);
     } catch (e) {
