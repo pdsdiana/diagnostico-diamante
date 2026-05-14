@@ -904,7 +904,7 @@ Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com 
 {"perfil_atual":"2 frases diretas sobre onde está hoje","facetas":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"diamantes_brutos":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"mapa_estrategico":[{"prioridade":"1","acao":"","impacto":""},{"prioridade":"2","acao":"","impacto":""},{"prioridade":"3","acao":"","impacto":""},{"prioridade":"4","acao":"","impacto":""}],"mensagem_final":"1 parágrafo personalizado","score_lapidacao":60}`;
 
     try {
-const text = (data.content && data.content[0] && data.content[0].text)        method: 'POST',
+const text = (data.content && data.content[0] && 
         headers: { 'Content-Type': 'application/json' },
   data.content[0].text) || '';
           leadData: {
