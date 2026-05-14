@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Diagnóstico Diamante, Descubra por que sua carreira está travada e o que precisa ser lapidado para crescer com estratégia. Ferramenta gratuita de Diana Santos, Estrategista de Carreira.">
 <meta property="og:title" content="Diagnóstico Diamante | Diana Santos">
-<meta property="og:description" content="Em 5 mhinutos, descubra o que está impedindo sua carreira de crescer. Diagnóstico personalizado, devolutiva gratuita com estrategista.">
+<meta property="og:description" content="Em 5 minutos, descubra o que está impedindo sua carreira de crescer. Diagnóstico personalizado, devolutiva gratuita com estrategista.">
 <meta property="og:type" content="website">
 <title>Diagnóstico Diamante | Diana Santos · Estrategista de Carreira</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -904,9 +904,10 @@ Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com 
 {"perfil_atual":"2 frases diretas sobre onde está hoje","facetas":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"diamantes_brutos":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"mapa_estrategico":[{"prioridade":"1","acao":"","impacto":""},{"prioridade":"2","acao":"","impacto":""},{"prioridade":"3","acao":"","impacto":""},{"prioridade":"4","acao":"","impacto":""}],"mensagem_final":"1 parágrafo personalizado","score_lapidacao":60}`;
 
     try {
-
-
-  data.content[0].text) || '';
+      const res  = await fetch('/api/diagnostic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           leadData: {
             nome: D.nome, cargo: D.cargo, setor: D.setor, nivel: D.nivel,
             tempo: D.tempo, evol: D.evol, desafios: D.desafios,
@@ -914,14 +915,14 @@ Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com 
           },
           claudePayload: {
             model: 'claude-sonnet-4-20250514',
-            max_tokens: 2000,
+            max_tokens: 4000,
             messages: [{ role: 'user', content: prompt }]
           }
         })
       });
       const data = await res.json();
-      data.content?.[0]?.text) || data.text || data.result || data.response || '';
-      const diag = (/\{[\s\S]*\}/) ? JSON.parse(text.match(/\{[\s\S]*\}/)[0]) if (data.error) throw new Error(data.error);(/\{[\s\S]*\}/); const diag = JSON.parse(jsonMatch ? jsonMatch[0] : text);
+      const text = (data.content && data.content[0] && data.content?.[0]?.text) || data.text || data.result || data.response || '';
+      const jsonMatch = text.match(/\{[\s\S]*\}/); const diag = JSON.parse(jsonMatch ? jsonMatch[0] : text);
       clearInterval(msgTimer);
       renderResult(diag);
     } catch (e) {
