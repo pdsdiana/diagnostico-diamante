@@ -557,7 +557,7 @@
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
       <span class="step-label">Ferramenta exclusiva · Gratuita</span>
       <h1>Diagnóstico<br><em>Diamante</em></h1>
-      <p class="subtitle">Descubra em 5 minutos por que sua carreira está travada, e o que precisa ser lapidado para você crescer com estratégia e intenção.</p>
+      <p class="subtitle">Responda 5 perguntas estratégicas sobre o seu momento. Eu analiso o seu perfil pessoalmente e te apresento o diagnóstico completo numa devolutiva gratuita de 30 minutos.</p>
 
       <div class="checklist">
         <div class="check-item">
@@ -566,11 +566,11 @@
         </div>
         <div class="check-item">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#378ADD" stroke-width="2.5" aria-hidden="true"><polyline points="20,6 9,17 4,12"/></svg>
-          Diagnóstico personalizado e detalhado
+          Análise pessoal do seu momento de carreira
         </div>
         <div class="check-item">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#378ADD" stroke-width="2.5" aria-hidden="true"><polyline points="20,6 9,17 4,12"/></svg>
-          Devolutiva gratuita de 30 min com estrategista
+          Devolutiva gratuita de 30 min, ao vivo com a estrategista
         </div>
       </div>
 
@@ -752,7 +752,7 @@
     </div>
 
     <div class="divider"></div>
-    <p style="font-size: 13px; color: var(--faint); margin-bottom: 18px; line-height: 1.7;">Informe seus contatos para receber o diagnóstico e agendar sua devolutiva gratuita.</p>
+    <p style="font-size: 13px; color: var(--faint); margin-bottom: 18px; line-height: 1.7;">Informe seus contatos para agendar sua devolutiva gratuita, onde você recebe o diagnóstico completo, ao vivo.</p>
 
     <div class="field">
       <label class="field-label" for="wpp">WhatsApp (com DDD)</label>
@@ -762,11 +762,11 @@
       <label class="field-label" for="email">E-mail</label>
       <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
     </div>
-    <span class="error" id="e5">Preencha todos os campos para gerar seu diagnóstico.</span>
+    <span class="error" id="e5">Preencha todos os campos para concluir.</span>
 
     <div class="nav nav-col">
-      <button class="btn btn-cta" onclick="generate()" type="button">
-        Gerar meu Diagnóstico Diamante
+      <button class="btn btn-cta" onclick="finalizar()" type="button">
+        Concluir e agendar minha devolutiva
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
       <button class="btn-back" style="justify-content: center;" onclick="go(4)">
@@ -785,8 +785,8 @@
       <line x1="10" y1="24" x2="66" y2="24" stroke="#378ADD" stroke-width=".7" opacity=".42"/>
       <line x1="38" y1="6" x2="38" y2="38" stroke="#378ADD" stroke-width=".7" opacity=".42"/>
     </svg>
-    <div class="loading-msg" id="loading-msg">Analisando seu perfil estratégico...</div>
-    <p class="loading-hint">Isso pode levar alguns segundos</p>
+    <div class="loading-msg" id="loading-msg">Enviando suas respostas...</div>
+    <p class="loading-hint">Só um instante</p>
   </div>
 
   <!-- ═══ RESULTADO ═══ -->
@@ -866,11 +866,9 @@
 
   // ── Loading messages ──
   const MSGS = [
-    'Analisando seu perfil estratégico...',
-    'Mapeando facetas a lapidar...',
-    'Identificando seus diamantes brutos...',
-    'Construindo seu mapa de ascensão...',
-    'Preparando seu diagnóstico personalizado...'
+    'Enviando suas respostas...',
+    'Registrando seu perfil...',
+    'Reservando sua devolutiva...'
   ];
   let msgIdx = 0, msgTimer;
 
@@ -884,8 +882,14 @@
     }, 2500);
   }
 
-  // ── Generate ──
-  async function generate() {
+  // ── Finalizar (grava lead no Notion, sem gerar diagnóstico) ──
+  function getOrigem() {
+    const p = new URLSearchParams(location.search).get('origem');
+    const ok = ['Instagram', 'LinkedIn', 'Indicação', 'Outro'];
+    return ok.includes(p) ? p : 'Instagram';
+  }
+
+  async function finalizar() {
     const err = document.getElementById('e5');
     err.style.display = 'none';
     D.obst  = document.getElementById('obst').value.trim();
@@ -896,53 +900,36 @@
     go('load');
     startMessages();
 
-    const prompt = `Você é Diana Santos, estrategista de carreira. Crie um Diagnóstico Diamante em JSON para:
-Nome: ${D.nome} | Cargo: ${D.cargo} | Setor: ${D.setor} | Nível: ${D.nivel}
-Tempo cargo: ${D.tempo} | Evolução: ${D.evol} | Desafios: ${D.desafios.join('/')}
-Objetivo: ${D.amb} | Clareza(1-5): ${D.esc} | Obstáculo: "${D.obst}"
-Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com JSON válido:
-{"perfil_atual":"2 frases diretas sobre onde está hoje","facetas":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"diamantes_brutos":[{"titulo":"","descricao":""},{"titulo":"","descricao":""},{"titulo":"","descricao":""}],"mapa_estrategico":[{"prioridade":"1","acao":"","impacto":""},{"prioridade":"2","acao":"","impacto":""},{"prioridade":"3","acao":"","impacto":""},{"prioridade":"4","acao":"","impacto":""}],"mensagem_final":"1 parágrafo personalizado","score_lapidacao":60}`;
-
     try {
-      const res  = await fetch('/api/diagnostic', {
+      await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           leadData: {
             nome: D.nome, cargo: D.cargo, setor: D.setor, nivel: D.nivel,
             tempo: D.tempo, evol: D.evol, desafios: D.desafios,
-            amb: D.amb, esc: D.esc, obst: D.obst, wpp: D.wpp, email: D.email
-          },
-          claudePayload: {
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 4000,
-            messages: [{ role: 'user', content: prompt }]
+            amb: D.amb, esc: D.esc, obst: D.obst,
+            wpp: D.wpp, email: D.email, origem: getOrigem()
           }
         })
       });
-      const data = await res.json();
-      const text = (data.content && data.content[0] && data.content?.[0]?.text) || data.text || data.result || data.response || '';
-      const jsonMatch = text.match(/\{[\s\S]*\}/); const diag = JSON.parse(jsonMatch ? jsonMatch[0] : text);
-      clearInterval(msgTimer);
-      renderResult(diag);
     } catch (e) {
-      clearInterval(msgTimer);
-      document.getElementById('sload').innerHTML = `
-        <div style="text-align:center;padding:40px 24px">
-          <p style="font-size:15px;color:var(--muted);margin-bottom:24px;line-height:1.7">Ocorreu um erro ao gerar o diagnóstico.<br>Verifique sua conexão e tente novamente.</p>
-          <button class="btn" onclick="location.reload()">Tentar novamente</button>
-        </div>`;
+      console.error('Falha ao registrar lead:', e);
     }
+
+    clearInterval(msgTimer);
+    renderConfirmation();
   }
 
-  // ── Render Result ──
-  function renderResult(d) {
+  // ── Render Confirmation (sem diagnóstico, foco em agendamento) ──
+  const AGENDA_URL  = 'https://calendar.app.google/y2BqsMBygM8S4pDG9';
+  const WHATS_BASE  = 'https://wa.me/5534984399644?text=';
+
+  function renderConfirmation() {
     const firstName = D.nome.split(' ')[0];
-    const sc        = d.score_lapidacao || 62;
-    const R         = 54;
-    const C         = 2 * Math.PI * R;
-    const filled    = Math.round(C * sc / 100);
-    const offset    = Math.round(C * 0.25);
+    const wppMsg = encodeURIComponent(
+      'Olá Diana! Sou ' + firstName + ', acabei de concluir o Diagnóstico Diamante e quero agendar minha devolutiva gratuita.'
+    );
 
     document.getElementById('sres').innerHTML = `
       <div class="brand" style="margin-bottom:28px">
@@ -951,78 +938,34 @@ Tom: elegante, direto, metáforas do diamante, sem clichê. Responda APENAS com 
       </div>
 
       <div class="result-header">
-        <span class="step-label">Diagnóstico Diamante</span>
-        <h1 style="font-size: clamp(26px,4vw,38px);">${firstName},<br>seu diagnóstico está pronto.</h1>
+        <span class="step-label">Respostas recebidas</span>
+        <h1 style="font-size: clamp(26px,4vw,38px);">${firstName},<br>seu próximo passo está aqui.</h1>
         <p class="result-cargo">${D.cargo} · ${D.setor}</p>
-
-        <svg class="score-circle" width="132" height="132" viewBox="0 0 132 132" aria-label="Score de lapidação: ${sc}">
-          <circle cx="66" cy="66" r="${R}" stroke="rgba(55,138,221,0.1)" stroke-width="7" fill="none"/>
-          <circle cx="66" cy="66" r="${R}" stroke="#378ADD" stroke-width="7" fill="none"
-            stroke-dasharray="${filled} ${Math.round(C)}"
-            stroke-dashoffset="${offset}"
-            stroke-linecap="round"/>
-          <text x="66" y="59" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="36" font-weight="300" fill="#F7F6F3">${sc}</text>
-          <text x="66" y="77" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7.5" fill="rgba(247,246,243,0.32)" letter-spacing="2.5">LAPIDAÇÃO</text>
-        </svg>
-        <p class="score-hint">índice de maturidade estratégica</p>
       </div>
 
       <div class="result-block">
-        <span class="block-label">Perfil Atual</span>
-        <p class="block-text">${d.perfil_atual}</p>
-      </div>
-
-      <div class="result-block">
-        <span class="block-label">Facetas a Lapidar</span>
-        <p class="block-title">O que está impedindo seu brilho</p>
-        ${d.facetas.map(f => `
-          <div class="item-card">
-            <div class="item-title">${f.titulo}</div>
-            <div class="item-desc">${f.descricao}</div>
-          </div>`).join('')}
-      </div>
-
-      <div class="result-block">
-        <span class="block-label">Diamantes Brutos</span>
-        <p class="block-title">O que você ainda não está aproveitando</p>
-        ${d.diamantes_brutos.map(db => `
-          <div class="item-card highlight">
-            <div class="item-title">${db.titulo}</div>
-            <div class="item-desc">${db.descricao}</div>
-          </div>`).join('')}
-      </div>
-
-      <div class="result-block">
-        <span class="block-label">Mapa Estratégico</span>
-        <p class="block-title">Suas próximas 4 movimentações</p>
-        ${d.mapa_estrategico.map(m => `
-          <div class="map-item">
-            <div class="map-num">${m.prioridade}</div>
-            <div>
-              <div class="map-action">${m.acao}</div>
-              <div class="map-impact">${m.impacto}</div>
-            </div>
-          </div>`).join('')}
-      </div>
-
-      <div class="result-block result-block-accent">
-        <span class="block-label">Uma palavra de Diana</span>
-        <p class="closing-quote">${d.mensagem_final}</p>
+        <span class="block-label">O que acontece agora</span>
+        <p class="block-text">Recebi suas respostas. Vou analisar o seu momento de carreira e preparar o seu Diagnóstico Diamante pessoalmente. Você recebe o diagnóstico completo, ao vivo, na sua devolutiva gratuita de 30 minutos.</p>
       </div>
 
       <div class="cta-box">
-        <h3>Agora vamos aprofundar.</h3>
+        <h3>Agende sua devolutiva</h3>
         <p>
-          Esse diagnóstico revela o mapa, o caminho se constrói com estratégia personalizada.
-          Agende sua <strong>Devolutiva Gratuita</strong>: 30 minutos para analisarmos juntos
-          seu diagnóstico e definirmos seus próximos passos reais.
+          Escolha o melhor horário na minha agenda. São 30 minutos para analisarmos
+          juntos o seu diagnóstico e definirmos seus próximos passos reais.
         </p>
-        <a href="https://wa.me/5534984399644?text=Olá%20Diana!%20Acabei%20de%20fazer%20o%20Diagnóstico%20Diamante%20e%20quero%20agendar%20minha%20devolutiva%20gratuita."
-           target="_blank" rel="noopener noreferrer" class="btn btn-cta">
-          Agendar Devolutiva Gratuita
+        <a href="${AGENDA_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-cta">
+          Escolher meu horário
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <p style="font-size:11px;color:var(--faint);margin-bottom:0">Sem compromisso · 100% estratégico</p>
+        <p style="font-size:11px;color:var(--faint);margin-bottom:0">Gratuito · Sem compromisso · 100% estratégico</p>
+      </div>
+
+      <div style="text-align:center;margin-top:8px">
+        <a href="${WHATS_BASE}${wppMsg}" target="_blank" rel="noopener noreferrer"
+           style="font-size:13px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px">
+          Prefere falar comigo no WhatsApp? Clique aqui
+        </a>
       </div>
 
       <div class="footer">
