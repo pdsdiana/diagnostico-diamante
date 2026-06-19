@@ -1,7 +1,7 @@
 {
   "functions": {
-    "api/diagnostic.js": {
-      "maxDuration": 60
+    "api/lead.js": {
+      "maxDuration": 30
     }
   }
 }
